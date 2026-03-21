@@ -1,0 +1,33 @@
+class Solution {
+    vector<int> temp;
+
+    void mS(vector<int>& nums, int l, int r) 
+    {
+        if (l>=r) return;
+        
+        int m=l+(r-l)/2;
+        mS(nums, l, m);
+        mS(nums, m+1, r);
+        
+        int i=l, j=m+1, k=l;
+        while (i<=m && j<=r) 
+        {
+            temp[k++] = (nums[i] <= nums[j]) ? nums[i++] : nums[j++];
+        }
+        while (i <= m) temp[k++] = nums[i++];
+        while (j <= r) temp[k++] = nums[j++];
+        
+        for (int p=l; p<=r; p++) 
+        {
+            nums[p] = temp[p];
+        }
+    }
+
+public:
+    vector<int> sortArray(vector<int>& nums) 
+    {
+        temp.resize(nums.size());
+        mS(nums, 0, nums.size()-1);
+        return nums;
+    }
+};
